@@ -1,6 +1,7 @@
 # 🧑‍🔧 ArtHOI: Taming Foundation Models for Monocular 4D Reconstruction of Hand-Articulated-Object Interactions
 
 [![Conference](https://img.shields.io/badge/CVPR-2026-red)](#citation)
+[![arXiv](https://img.shields.io/badge/arXiv-2603.25791-b31b1b.svg)](https://arxiv.org/abs/2603.25791)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://arthoi-reconstruction.github.io/)
 [![Status](https://img.shields.io/badge/Code-Coming%20Soon-orange)](#release-plan)
 
