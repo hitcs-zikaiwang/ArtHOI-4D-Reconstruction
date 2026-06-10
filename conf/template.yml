@@ -1,0 +1,50 @@
+part_cnt: 2
+cano_frame: 0
+
+fix_intr: True
+fix_extr: True
+depth_erode: 5
+
+asr_iter: 20
+
+per_part:
+  num_iter: 300
+  learning_rate: 0.02
+  final_learning_rate: 2e-3
+  init_from_prev: True
+  # freeze_transl_until: 0
+  vis_every: -1
+  tracking:
+    mask_erode_radius: 5
+    grid_size: 11
+    interval: 10
+  ## === loss name : [loss_lambda, from_step, until_step] ===
+  losses:
+    use: ['track', 'tpmask',]
+    use_best_after: 40
+    track: [20.0, 0, 100000]
+    tpmask: [5.0, 0, 100000]
+    velo: [0.4, 550, 100000]
+
+ho_align:
+  lr: 0.01
+  final_lr: 0.0005
+  steps: 1000
+  vis_every: 400
+  hard_velo: false
+
+  no_pen: false
+  pen_steps: 300
+  pen_lr: 0.001
+  pen_weight_start: 10.0
+  pen_weight_end: 100.0
+  pen_anchor_transl_w: 5.0
+  pen_anchor_orient_w: 10.0
+  pen_orient_accel_w: 1.0
+  pen_mask_refresh: 20 
+
+  no_smooth: false
+  smooth_steps: 300
+  smooth_lr: 0.0005
+  smooth_weight: 50.0
+  smooth_anchor_weight: 5.0

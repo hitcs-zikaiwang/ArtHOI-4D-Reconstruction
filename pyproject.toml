@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arthoi"
+version = "0.1.0"
+description = "ArtHOI research code package"
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "hrse",
+    "hrse.*",
+    "utils",
+    "utils.*",
+]
+namespaces = true

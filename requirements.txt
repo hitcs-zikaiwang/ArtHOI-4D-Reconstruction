@@ -1,0 +1,43 @@
+arrgh
+dashscope==1.25.14
+easydict==1.13
+geomloss==0.2.6
+imageio[ffmpeg,pyav]==2.36.0
+loguru
+matplotlib==3.9.2
+natsort
+networkx==3.4.2
+numpy==1.26.4
+omegaconf==2.3.0
+open3d
+openai==1.88.0
+opencv-contrib-python-headless==4.11.0.86
+pillow
+plyfile==1.1
+pymeshlab==2023.12.post2
+pyrealsense2
+pytorch-lightning==2.5.5
+PyYAML
+requests==2.32.3
+chardet==5.2.0
+scikit-learn==1.5.2
+scipy==1.14.1
+smplx==0.1.28
+termcolor
+tqdm
+trimesh==3.23.5
+tensorboard
+gradio==5.26.0
+gradio_client==1.9.0
+einops
+pysdf==0.1.9
+transformers==4.46.3
+viser==0.2.23
+hydra-core
+ruamel.yaml
+
+# Install these from source/local paths after PyTorch is installed:
+# nvdiffrast==0.3.3
+# pytorch3d==0.7.8
+# manopth==0.0.1
+# chumpy==0.71
