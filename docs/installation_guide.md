@@ -84,13 +84,33 @@ python -m pip install \
 
 The observed working version is `0.71`.
 
-### SAM2
+## 4. Clone and install third_party model libraries.
+ 
+Clone the latest version of [SAM2](https://github.com/facebookresearch/sam2), [co-tracker](https://github.com/facebookresearch/co-tracker), [DiffuEraser](https://github.com/lixiaowen-xw/diffueraser), [Video-Depth-Anything](https://github.com/DepthAnything/Video-Depth-Anything), [FoundationPose](https://github.com/NVlabs/FoundationPose), [unidepth](https://github.com/lpiccinelli-eth/unidepth), [PartField](https://github.com/nv-tlabs/PartField) and [WiLoR](https://github.com/rolpotamias/WiLoR) (or HaMeR) to the `third_party/` directory. After this step, an ideal `third_party/` directory should look like this:
 
+```
+├── third_party
+│   ├── body_models (see below)
+│   ├── co-tracker
+│   ├── DiffuEraser
+│   ├── foundationpose
+│   ├── PartField
+│   ├── pytorch3d
+│   ├── sam2 
+│   ├── unidepth
+│   ├── Video-Depth-Anything
+│   └── WiLoR
+```
 
+### CoTracker, unidepth and other installation
+ 
+It is highly recommended to install `co-tracker` and `unidepth` locally. 
 
-### CoTracker 3
+Install cotracker by following `https://github.com/facebookresearch/co-tracker#install-a-development-version`. It is not needed to download weights manually since the code will automatically download the required weights on first use.
 
-It is highly recommended to install CoTracker locally to visualize tracking trajectories. Clone the CoTracker repository from official source `https://github.com/facebookresearch/co-tracker#install-a-development-version` to the `third_party/co-tracker` directory. It is not needed to download weights manually since the code will automatically download the required weights on first use.
+Install unidepth by executing `pip install -e third_party/unidepth --no-build-isolation`, and check if the installation broke `numpy` version. If it did, please make sure to downgrade `numpy` to `1.26` or the latest compatible version. It is known that `unidepth` requires `numpy>=2`, but it is basically ok to use `1.26`.
+
+You can optionally install `Video-Depth-Anything`(recommended), `FoundationPose` and `PartField` if you want to call them under `arthoi` environment. It can be done by installing them with `--no-deps` and adding missing dependencies to the environment manually. Moreover, ask a coding agent to do this is also a good option, but **please make sure not to break any existing packages while doing this** while you prompting them.
 
 ### Final Check
 
@@ -104,13 +124,9 @@ Such process is easily to broke `numpy` version, so please double-check and make
 
 > It is known that `unidepth` requires `numpy>=2`, but it is basically ok to use `1.26`.
 
-## 4. Download model weights
 
-- SAM2 & CoTracker & DINO & UniDepthV2: weights are automatically downloaded on first use by the respective libraries.
-- MANO: download the `MANO_RIGHT.pkl` and `MANO_LEFT.pkl` files from the official MANO website and place them in `third_party/body_models/mano/` or the path specified by `MANO_MODEL_PATH` in the config.
-- DiffuEraser:
-- PartField:
-- Video Depth Anything: 
-- WiLoR (or HaMeR): 
+## 4. Download third-party models and weights
 
-Place the downloaded weights in the respective directories according to the official instructions.
+- SAM2 & CoTracker & UniDepthV2: weights are automatically downloaded on first use by the respective libraries. If not, you can also download them manually by following the instructions in their official repositories.
+- MANO: download the `MANO_RIGHT.pkl` and `MANO_LEFT.pkl` files from the [official MANO website](https://mano.is.tue.mpg.de/) and place them in `third_party/body_models/mano/` or the path specified by `MANO_MODEL_PATH` in the config.
+- DiffuEraser, PartField, Video Depth Anything, WiLoR (or HaMeR): Place the downloaded weights in the respective directories according to their official instructions.
