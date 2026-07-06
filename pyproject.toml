@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "arthoi"
 version = "0.1.0"
 description = "ArtHOI research code package"
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = []
 
 [tool.setuptools.packages.find]

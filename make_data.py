@@ -271,7 +271,15 @@ def Object_recon(seq_path, seq_name, args):
             os.path.join(glb_path, glb_file.replace('.glb', '.obj'))
         )
     loguru.info(f"Processed {len(glb_files)} GLB files to OBJ with vertex colors in {glb_path}")
-        
+    # move GLB file to ./build/mesh/raw dir, **otherwise PartField won't load model with color correctly**
+    raw_mesh_dir = os.path.join(glb_path, 'raw')
+    os.makedirs(raw_mesh_dir, exist_ok=True)
+    for glb_file in glb_files:
+        shutil.move(
+            os.path.join(glb_path, glb_file),
+            os.path.join(raw_mesh_dir, glb_file)
+        )
+    
     # Get Object Part Field pre-calculation
     skip = ask_to_continue("Stage 5B: generate PartField pre-calculation results.")
     if not skip:

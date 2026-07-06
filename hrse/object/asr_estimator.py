@@ -6,19 +6,24 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 import copy
-
+import os
+import open3d as o3d
 import numpy as np
 import torch
 import nvdiffrast.torch as dr
 from loguru import logger as loguru
 
-from third_party.foundationpose.Utils import *
-from third_party.foundationpose.datareader import *
-from third_party.foundationpose.learning.training.predict_score import *
-from third_party.foundationpose.learning.training.predict_pose_refine import *
+import sys
+__cur_path__ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(f"{__cur_path__}/../third_party")
+from foundationpose.Utils import *
+from foundationpose.datareader import *
+from foundationpose.learning.training.predict_score import *
+from foundationpose.learning.training.predict_pose_refine import *
 
-import hrse.utils.render as render
+import hrse.utils.plot.asr_plotter as asr_plotter
 import hrse.utils.tfs.backproj as backproj
+import hrse.utils.image_utils as image_utils
 
 class ASR:
     def __init__(self, symmetry_tfs=None, mesh=None, scorer: ScorePredictor = ScorePredictor(),
@@ -224,9 +229,12 @@ class ASR:
             else:
                 self.glctx = glctx
 
-        depth_pcl = backproj.metric_depth_to_pointcloud(
+        depth_pcl, _ = backproj.metric_depth_to_pointcloud(
             torch.from_numpy(depth).to('cuda'), K, np.eye(4), # FIXME remove hardcoded cuda device
-            backproj.erode_mask(torch.from_numpy(ob_mask).to('cuda'), kernel_size=5),
+            rgb=None,
+            mask=image_utils.erode_mask(torch.from_numpy(ob_mask).to('cuda'), kernel_size=5),
+            return_o3d=False,
+            # fast_impl=True,  ## will lower precision, but way more faster
         )
         depth_pcl = depth_pcl.cpu().numpy()
 
@@ -524,13 +532,13 @@ class ASR:
         """
         if np.max(color) > 2.0:
             color = color.astype(np.float32) / 255.0
-        rend = render.render_deform_oneframe(
+        rend = asr_plotter.render_deform_oneframe(
             color, mask, K, 
             mesh_v=mesh_v, mesh_f=mesh_f, mesh_c=mesh_c,
             tf_mat=best_pose,
             save=save_path
         )
-        iou = render.mask_IoU(
+        iou = image_utils.mask_IoU(
             rend['mask'], mask
         )
         loguru.debug(f"PyT3D rendered IoU: {iou:0.4f}")

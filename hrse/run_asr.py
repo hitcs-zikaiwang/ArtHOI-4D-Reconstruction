@@ -17,7 +17,10 @@ from hrse.object.asr_estimator import ASR
 from utils.data_util import to_tensor
 from hrse.dataclass.primitives import ArtiPart
 
-from third_party.foundationpose.Utils import visualize_frame_results, align_mesh_to_coordinate
+import sys
+__cur_path__ = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(f"{__cur_path__}/../third_party")
+from foundationpose.Utils import visualize_frame_results, align_mesh_to_coordinate
 
 glctx = dr.RasterizeCudaContext()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

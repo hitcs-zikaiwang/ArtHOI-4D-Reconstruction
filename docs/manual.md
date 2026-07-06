@@ -28,6 +28,8 @@ python make_data.py \
   --target_reso 960 540
 ```
 
+> **Note: If you have multiple available GPUs, it's recommended to set `CUDA_VISIBLE_DEVICES` to only one GPU, or else you may have to modify `partfield_inference.py` to prevent it from using all GPUs and cause an error.**
+
 `make_data.py` pauses before each stage. Press enter to run the stage, type `s` to skip it, or type `exit` to terminate the pipeline.
 
 ## 1. Prepare the Raw Data
@@ -209,6 +211,8 @@ python object/part_seperation.py \
 python hrse/object_4d.py --seq-path <dataset_path> --conf <config_file> --cano-reg-ckpt <obj_init_path>
 # you can also specify --output-path
 ```
+
+> Note: If the optimized motion is not aligned well, try to adjust the `per_part.num_iter` in the config file to a larger value (e.g. `850`).
 
 - Finally, align HO with:
 
