@@ -154,9 +154,9 @@ third_party/PartField/exp_results/partfield_features/<seq_name>/
 <seq_path>/processed/partseps/
 ```
 
-Set `--part-cnt` to the number of articulated object parts you expect. The current script passes `part_cnt * 2` clusters to PartField separation, which is intended to over-segment before later selection and fitting.
+`PF_cluster_cnt` in the config file (`./conf/<seq_name>.yml`) to the number of articulated object parts you expect. The current script passes `part_cnt * 2` clusters to PartField separation, which is intended to over-segment before later selection and fitting.
 
-After this stage, visually inspect the separated parts. Part separation quality can vary across capture sources such as RealSense data, YouTube videos, and other captures, so this stage should not be treated as fully automatic.
+However, PartField separation quality can vary across capture sources, please visually inspect the separated parts, adjust the cluster count, and re-run the seperation stage if necessary. If PartField fails to separate the parts correctly, you can also use a 2D-mask based separation method by running `hrse/object/part_seperation.py` with the `--use_2d_mask` argument.
 
 ## 7. Hand Reconstruction and MLLM Contact Preparation
 
@@ -198,17 +198,19 @@ Meanwhile, you can run the object part:
 conda run -n fpose --live-stream \
 python hrse/run_asr.py --seq-path <dataset_path> --conf <config_file> --out <your_desired_path/asr_init/> 
 # then seperate parts
-python object/part_seperation.py \
---seq-path <dataset_path> --conf <config_file> \
---asr <your_desired_path/asr_init/> \
---pfsep <your_desired_path/partfield_seps/>
---output-path <obj_init_path> \
+python hrse/object/part_seperation.py \
+  --seq-path <dataset_path> --conf <config_file> \
+  --asr <your_desired_path/asr_init/seq_name> \
+  --pfsep <your_desired_path/partfield_seps/>
+  --output-path <your_desired_path/obj_cano_init> \
+  # --use_2d_mask  # optional, use 2D mask based separation instead of PartField separation
 ```
 
 - Run object motion optimization with:
   
 ```bash
-python hrse/object_4d.py --seq-path <dataset_path> --conf <config_file> --cano-reg-ckpt <obj_init_path>
+python hrse/object_4d.py --seq-path <dataset_path> --conf <config_file> \
+  --cano-reg-ckpt <your_desired_path/obj_cano_init/seq_name>
 # you can also specify --output-path
 ```
 

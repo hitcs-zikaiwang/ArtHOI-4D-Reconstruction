@@ -235,6 +235,16 @@ def Step4_Run_depth_estimation(seq_path, args, target_resolution=None):
             f'{seq_path}/build/inpainting/metric_depth.pkl',
         )
 
+def Step5_Pack_dataset(seq_path, args):
+    skip = ask_to_continue("Stage 5: Pack dataset for fast loading. "
+                           "If you have already packed the dataset, you can skip this step.")
+    if not skip:
+        loguru.info("Packing dataset...")
+        dataset_io.pack_dataset(
+            seq_path=f"{seq_path}/build",
+            part_cnt=args.part_cnt,
+        )
+        loguru.info("Dataset packed successfully.")
 
 def Object_recon(seq_path, seq_name, args):
     # cutout object image from canonical frame
@@ -305,8 +315,7 @@ def Object_recon(seq_path, seq_name, args):
             "--root", f"exp_results/partfield_features/{seq_name}/",
             "--source_model", f"{seq_path}/build/mesh/{cano_frame:05d}.obj",
             "--dump_dir", f"{seq_path}/processed/partseps/",
-            "--num_clusters", f"{args.part_cnt * 2}"
-            # "--num-clusters", "6"
+            "--conf", f"{ROOT}/conf/{seq_name}_p{args.part_cnt}c{args.cano_frame}.yml",
         ]
         file_utils.call_script_block(
             f'{PARTFIELD_ROOT}/run_seperate.py',
@@ -392,9 +401,13 @@ def main():
         args, 
         target_resolution=target_resolution
     )
+    Step5_Pack_dataset(
+        seq_path, 
+        args, 
+    )
+    generate_conf(args, seq_name)
     ask_to_continue("All video data preprocessing is done. "
                     "Continue to pre-process object and hand reconstruction? ")
-    generate_conf(args, seq_name)
     Object_recon(
         seq_path,
         seq_name,

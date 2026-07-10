@@ -828,7 +828,13 @@ def solve_clustering(input_fname, uid, view_id, save_dir="test_results1", out_re
             np.save(fname_clustering, FL)
         """
         
-            
+
+
+def load_conf(conf_path):
+    import yaml
+    with open(conf_path, 'r', encoding='utf-8') as f:
+        return yaml.safe_load(f)
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
@@ -843,13 +849,20 @@ if __name__ == '__main__':
     parser.add_argument('--with_knn', default= False, type=bool)
 
     parser.add_argument('--export_mesh', default= True, type=bool)
+    parser.add_argument('--conf', required=True, type=str)
 
     FLAGS = parser.parse_args()
     root = FLAGS.root
     OUTPUT_FOL = FLAGS.dump_dir
     SOURCE_MODEL = FLAGS.source_model
 
-    NUM_CLUSTERS = FLAGS.num_clusters
+    # override num_clusters with conf file
+    asr_conf = load_conf(FLAGS.conf)
+    if "PF_cluster_cnt" in asr_conf:
+        NUM_CLUSTERS = asr_conf["PF_cluster_cnt"]
+    else:
+        raise ValueError("PF_cluster_cnt not found in the configuration file.")
+
     USE_AGGLO = FLAGS.use_agglo
     IS_PC = FLAGS.is_pc
 
