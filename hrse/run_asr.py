@@ -156,15 +156,17 @@ def cano_register(
 
 
 if __name__=='__main__':
-    seed_everything(0)
     parser = argparse.ArgumentParser(description="Set experiment name and paths")
     parser.add_argument("--seq-path", type=str, default="", help="Path to the input sequence")
     parser.add_argument("--conf", type=str)
     parser.add_argument("--out", type=str, default='results')
+    parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args()
     args = edict(vars(args))
     conf = edict(OmegaConf.load(args.conf))
     args.update(conf)
+    loguru.info(f"Using seed: {args.seed} and iterations: {args.asr_iter}")
+    seed_everything(args.seed)
     
     seq_name = args.seq_path.strip('/').split('/')[-1]
     loguru.info(f"Processing sequence: {seq_name}")
@@ -196,6 +198,7 @@ if __name__=='__main__':
         depth=im_depth, 
         ob_mask=mask, 
         asr_iter=args.asr_iter if hasattr(args, 'asr_iter') else 20,
+        asr_seed=args.seed if hasattr(args, 'seed') else 0,
         name=f'asr'
     )
     # pred_pose_raw = pred_pose @ mesh_tf
@@ -244,12 +247,4 @@ if __name__=='__main__':
         est_only=True,
         save_on_folder=True
     )
-    
-    # assign part seperation to mask
-    # run `process_pfsep.py`
-    """
-    python object/part_seperation.py \
-        --seq-path /hrse-ds/ytb_waffle2 --conf conf/ytb_waffle2_100c.yml \
-        --output-path /hdd1/exp/hrse_asr --asr /hdd1/exp/art_cano/asr_v2/ \
-        --pfsep /hdd1/exp/arti/hrse-ds/ytb_waffle2/processed/partseps
-    """
+

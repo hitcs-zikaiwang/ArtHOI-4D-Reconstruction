@@ -257,7 +257,8 @@ def Object_recon(seq_path, seq_name, args):
     
     # Get Object Mesh
     skip = ask_to_continue("Stage 5A: generate object mesh.")
-    glb_path = f'{seq_path}/build/mesh/'
+    glb_path = f'{seq_path}/build/mesh/raw'
+    obj_path = f'{seq_path}/build/mesh'
     if not skip:
         loguru.info("Calling Hunyuan3D 3.1, this would take long time...")
         hy3d_api_args = [
@@ -273,22 +274,14 @@ def Object_recon(seq_path, seq_name, args):
     from utils.process_hy3d import process_glb_to_vertcolor_obj
     glb_files = [f for f in os.listdir(glb_path) if f.endswith('.glb')]
     for glb_file in glb_files:
-        if os.path.exists(os.path.join(glb_path, glb_file.replace('.glb', '.obj'))):
+        if os.path.exists(os.path.join(obj_path, glb_file.replace('.glb', '.obj'))):
             # loguru.info(f"OBJ file already exists for {glb_file}, skipping conversion.")
             continue
         process_glb_to_vertcolor_obj(
             os.path.join(glb_path, glb_file),
-            os.path.join(glb_path, glb_file.replace('.glb', '.obj'))
+            os.path.join(obj_path, glb_file.replace('.glb', '.obj'))
         )
     loguru.info(f"Processed {len(glb_files)} GLB files to OBJ with vertex colors in {glb_path}")
-    # move GLB file to ./build/mesh/raw dir, **otherwise PartField won't load model with color correctly**
-    raw_mesh_dir = os.path.join(glb_path, 'raw')
-    os.makedirs(raw_mesh_dir, exist_ok=True)
-    for glb_file in glb_files:
-        shutil.move(
-            os.path.join(glb_path, glb_file),
-            os.path.join(raw_mesh_dir, glb_file)
-        )
     
     # Get Object Part Field pre-calculation
     skip = ask_to_continue("Stage 5B: generate PartField pre-calculation results.")
@@ -364,8 +357,8 @@ def generate_conf(args, seq_name):
 
     cano_frame = args.cano_frame
     part_cnt = args.part_cnt
-    conf_template.cano_frame = cano_frame
-    conf_template.part_cnt = part_cnt
+    conf_template['cano_frame'] = cano_frame
+    conf_template['part_cnt'] = part_cnt
     conf_out = f'{ROOT}/conf/{seq_name}_p{part_cnt}c{cano_frame}.yml'
 
     with open(conf_out, 'w', encoding='utf-8') as f:

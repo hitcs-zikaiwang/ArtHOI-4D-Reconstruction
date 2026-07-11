@@ -215,13 +215,13 @@ class ASR:
 
         return center.reshape(3)
 
-    def register_asr(self, K, rgb, depth, ob_mask, asr_iter=20, 
+    def register_asr(self, K, rgb, depth, ob_mask, asr_iter=20, asr_seed=0,
                      ob_id=None, glctx=None, iteration=5, name=None, 
                      refinement=True, axis_align=False,coarse_est=True):
         '''Copmute pose from given pts to self.pcd
         @pts: (N,3) np array, downsampled scene points
         '''
-        set_seed(0)
+        set_seed(asr_seed)
 
         if self.glctx is None:
             if glctx is None:
