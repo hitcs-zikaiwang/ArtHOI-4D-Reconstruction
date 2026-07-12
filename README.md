@@ -3,7 +3,7 @@
 [![Conference](https://img.shields.io/badge/CVPR-2026--Highlight-red)](#citation)
 [![arXiv](https://img.shields.io/badge/arXiv-2603.25791-b31b1b.svg)](https://arxiv.org/abs/2603.25791)
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://arthoi-reconstruction.github.io/)
-[![Status](https://img.shields.io/badge/Code-upd@2026-06-10-orange)](#release-plan)
+[![Huggingface](https://img.shields.io/badge/Huggingface-Dataset-green)](https://huggingface.co/datasets/WangZikai/ArtHOI-Dataset/)
 
 Official repository for CVPR 2026 Highlight Paper ArtHOI: Taming Foundation Models for Monocular 4D Reconstruction of Hand-Articulated-Object Interactions.
 
@@ -20,7 +20,7 @@ Please refer to [installation doc](./docs/installation_guide.md) for installatio
 - **[2026-01]** Paper accepted by CVPR 2026.
 - **[2026-03]** Project page released.
 - **[2026-06-10]** Code and document release.
-- **TBD: [2026-06]** Dataset and visualization. We will update this repository soon.
+- **[2026-07-12]** Dataset released on [Huggingface](https://huggingface.co/datasets/WangZikai/ArtHOI-Dataset/).
   
 ## Citation
 
