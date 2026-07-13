@@ -102,7 +102,7 @@ Clone the latest version of [SAM2](https://github.com/facebookresearch/sam2), [c
 │   └── WiLoR
 ```
 
-After setup all library files, it is also necessary to copy `Utils.py` to `third_party/foundationpose/`, `app_hrse.py` to `third_party/sam2` (optional), `WiLoR_ArtHOI.py` to `third_party/WiLoR/` and **`run_seperate.py` to `third_party/PartField/partfield/`**, since we have some modifications for ArtHOI.
+After setup all library files, it is also necessary to copy `Utils.py` to `third_party/foundationpose/`, `app_hrse.py` to `third_party/sam2` (optional), `WiLoR_ArtHOI.py` to `third_party/WiLoR/`, `metric_align.py` to `third_party/unidepth` and **`run_seperate.py` to `third_party/PartField/partfield/`**, since we have some modifications for ArtHOI.
 
 ### CoTracker, unidepth and other installation
  

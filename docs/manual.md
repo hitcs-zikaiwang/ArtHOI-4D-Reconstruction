@@ -117,7 +117,7 @@ Two object initialization workflows are supported:
 For a quick trial run, it is usually faster to skip this stage in the script and manually generate the canonical object mesh with the Hunyuan3D web service. Place the resulting `.glb` file in:
 
 ```text
-<seq_path>/build/mesh/
+<seq_path>/build/mesh/raw/<frame_number_05d>.glb
 ```
 
 The pipeline converts `.glb` files in this folder into vertex-colored `.obj` files automatically.
